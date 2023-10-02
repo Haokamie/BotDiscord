@@ -35,4 +35,4 @@ async def lune(ctx):
     await ctx.send(statut_lunaire)
 
 # Remplacez 'YOUR_BOT_TOKEN' par le token de votre propre bot
-bot.run('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')
+bot.run('MTE1ODQ5OTI3MTY2NzA4OTQ4OA.GAI1d8.wsmfhLRDHxrMiFiRtgvquk3_dAHVkf6D-gDXtg')
