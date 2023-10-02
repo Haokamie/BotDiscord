@@ -1,5 +1,7 @@
 import discord
 from discord.ext import commands
+import requests
+from bs4 import BeautifulSoup
 
 bot = commands.Bot(command_prefix='!')
 
@@ -9,9 +11,27 @@ async def on_ready():
 
 @bot.command()
 async def lune(ctx):
-    # Remplacez cette ligne par le code pour récupérer le statut de la lune à partir du site de calendrier lunaire
-    statut_lunaire = "Le statut de la lune est : [insérez le statut ici]"
- 
+    # Utilisez requests pour obtenir le contenu HTML de la page Web
+    url = 'https://www.calendrier-lunaire.net/'
+    response = requests.get(url)
+    
+    # Vérifiez si la requête HTTP a réussi
+    if response.status_code == 200:
+        # Utilisez BeautifulSoup pour analyser la page HTML
+        soup = BeautifulSoup(response.text, 'html.parser')
+        
+        # Recherchez l'élément HTML contenant les informations sur la lune
+        lune_info = soup.find('div', {'class': 'mois_moon_full'})
+        
+        # Si l'élément est trouvé, extrayez le texte
+        if lune_info:
+            statut_lunaire = lune_info.get_text()
+        else:
+            statut_lunaire = "Impossible de récupérer les informations sur la lune."
+    else:
+        statut_lunaire = "Impossible de se connecter au site Web."
+
+    # Envoyez le statut de la lune dans le canal Discord
     await ctx.send(statut_lunaire)
 
 # Remplacez 'YOUR_BOT_TOKEN' par le token de votre propre bot
